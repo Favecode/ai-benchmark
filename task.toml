@@ -1,0 +1,36 @@
+[task]
+id = "distributed-rate-limiter-partition-tolerance"
+title = "Sliding-Window Rate Limiter Under Network Partition"
+version = "1.0.0"
+category = "distributed-systems"
+difficulty = "senior"
+estimated_human_hours = "6-9"
+language = "python"
+
+[agent]
+entrypoint_instructions = "instruction.md"
+workdir = "/workspace"
+edit_paths = ["src/rate_limiter.py"]
+readonly_paths = ["src/store.py"]
+visible_test_command = "python3 /workspace/tests/visible/test_visible.py"
+grading_command = "bash /workspace/tests/test.sh"
+max_attempts = 1
+time_limit_minutes = 120
+
+[sandbox]
+image = "environment/Dockerfile"
+requires_network_at_runtime = false
+cpu_cores = 2
+memory_mb = 2048
+disk_mb = 1024
+timeout_seconds = 600
+
+[grading]
+pass_condition = "exit_code_zero"
+hidden_test_path = "tests/hidden/test_hidden.py"
+visible_test_path = "tests/visible/test_visible.py"
+integrity_check = "src/store.py sha256 must match .store_hash_expected"
+scoring = "binary"  # pass/fail on tests/test.sh exit code; no partial credit
+
+[packaging]
+max_zip_size_mib = 512
